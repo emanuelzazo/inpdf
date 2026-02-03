@@ -1,3 +1,4 @@
+use crate::pdf::cache::get_cached_pdf;
 use anyhow::{Context, Result};
 use lopdf::{Document, Object};
 use std::path::Path;
@@ -26,13 +27,12 @@ enum LabelStyle {
     None,       // No numbering, just prefix
 }
 
-/// Extract page label mapping from a PDF
+/// Extract page label mapping from a PDF.
 pub fn extract_page_labels<P: AsRef<Path>>(path: P) -> Result<Vec<PageLabel>> {
     let path = path.as_ref();
-    let doc =
-        Document::load(path).with_context(|| format!("Failed to open PDF: {}", path.display()))?;
+    let cached = get_cached_pdf(path).with_context(|| format!("cache PDF: {}", path.display()))?;
 
-    extract_page_labels_from_doc(&doc)
+    extract_page_labels_from_doc(cached.document())
 }
 
 pub fn extract_page_labels_from_doc(doc: &Document) -> Result<Vec<PageLabel>> {

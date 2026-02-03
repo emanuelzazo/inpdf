@@ -1,3 +1,4 @@
+use crate::pdf::cache::get_cached_pdf;
 use anyhow::{Context, Result};
 use lopdf::{Document, Object, ObjectId};
 use std::path::Path;
@@ -10,13 +11,12 @@ pub struct TocEntry {
     pub children: Vec<TocEntry>,
 }
 
-/// Extract table of contents / bookmarks from a PDF
+/// Extract table of contents / bookmarks from a PDF.
 pub fn extract_toc<P: AsRef<Path>>(path: P) -> Result<Vec<TocEntry>> {
     let path = path.as_ref();
-    let doc =
-        Document::load(path).with_context(|| format!("Failed to open PDF: {}", path.display()))?;
+    let cached = get_cached_pdf(path).with_context(|| format!("cache PDF: {}", path.display()))?;
 
-    extract_toc_from_doc(&doc)
+    extract_toc_from_doc(cached.document())
 }
 
 pub fn extract_toc_from_doc(doc: &Document) -> Result<Vec<TocEntry>> {

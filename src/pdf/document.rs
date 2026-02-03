@@ -1,9 +1,10 @@
+use crate::pdf::cache::{get_cached_pdf, CachedPdf};
 use anyhow::{Context, Result};
 use lopdf::{Document, Object, ObjectId};
 use std::path::Path;
 
 pub struct PdfDocument {
-    pub doc: Document,
+    cached: CachedPdf,
     #[allow(dead_code)]
     pub path: String,
 }
@@ -11,21 +12,25 @@ pub struct PdfDocument {
 impl PdfDocument {
     pub fn open<P: AsRef<Path>>(path: P) -> Result<Self> {
         let path_str = path.as_ref().display().to_string();
-        let doc =
-            Document::load(&path).with_context(|| format!("Failed to open PDF: {}", path_str))?;
+        let cached = get_cached_pdf(&path).with_context(|| format!("cache PDF: {}", path_str))?;
         Ok(PdfDocument {
-            doc,
+            cached,
             path: path_str,
         })
     }
 
+    /// Get a reference to the underlying document.
+    pub fn doc(&self) -> &Document {
+        self.cached.document()
+    }
+
     pub fn page_count(&self) -> u32 {
-        self.doc.get_pages().len() as u32
+        self.doc().get_pages().len() as u32
     }
 
     /// Get 1-indexed page object IDs
     pub fn page_ids(&self) -> Vec<(u32, ObjectId)> {
-        let mut pages: Vec<_> = self.doc.get_pages().into_iter().collect();
+        let mut pages: Vec<_> = self.doc().get_pages().into_iter().collect();
         pages.sort_by_key(|(num, _)| *num);
         pages
     }
@@ -33,10 +38,11 @@ impl PdfDocument {
     /// Get metadata from the document info dictionary
     pub fn get_info(&self) -> PdfInfo {
         let mut info = PdfInfo::default();
+        let doc = self.doc();
 
-        if let Ok(info_obj) = self.doc.trailer.get(b"Info") {
+        if let Ok(info_obj) = doc.trailer.get(b"Info") {
             if let Object::Reference(info_ref) = info_obj {
-                if let Ok(Object::Dictionary(dict)) = self.doc.get_object(*info_ref) {
+                if let Ok(Object::Dictionary(dict)) = doc.get_object(*info_ref) {
                     info.title = get_string_from_dict(dict, b"Title");
                     info.author = get_string_from_dict(dict, b"Author");
                     info.creator = get_string_from_dict(dict, b"Creator");
@@ -53,9 +59,12 @@ impl PdfDocument {
         info
     }
 
-    /// Extract specific pages to a new document
+    /// Extract specific pages to a new document.
+    ///
+    /// Note: This operation requires cloning the document since it mutates
+    /// the page tree to delete unwanted pages.
     pub fn extract_pages(&self, pages: &[u32]) -> Result<Document> {
-        let mut new_doc = self.doc.clone();
+        let mut new_doc = self.doc().clone();
         let all_pages = self.page_ids();
         let total = all_pages.len() as u32;
 
@@ -88,10 +97,7 @@ impl PdfDocument {
         // Check if parent directory exists before attempting to save
         if let Some(parent) = path.parent() {
             if !parent.as_os_str().is_empty() && !parent.exists() {
-                anyhow::bail!(
-                    "Output directory does not exist: {}",
-                    parent.display()
-                );
+                anyhow::bail!("Output directory does not exist: {}", parent.display());
             }
         }
 
