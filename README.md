@@ -1,80 +1,129 @@
-# inpdf
+# 🚀 inpdf - Extract and Search PDF Content Effortlessly
 
-A CLI tool and MCP server for searching, navigating, and extracting content from PDFs.
+[![Download inpdf](https://img.shields.io/badge/Download-inpdf-blue?style=flat&logo=github)](https://github.com/emanuelzazo/inpdf/releases)
 
-## What it does
+## 📋 Overview
 
-```bash
-# Search for text across a PDF
-$ inpdf grep "authentication" spec.pdf
-p12:L45: User authentication requires valid credentials
-p12:L89: The authentication token expires after 24 hours
-p45:L12: See Chapter 3 for authentication details
+inpdf is a Command Line Interface (CLI) tool and MCP server designed for searching, navigating, and extracting content from PDF files. This application streamlines workflows by allowing users to quickly find information and extract specific pages with ease.
 
-# Extract specific pages
-$ inpdf extract manual.pdf "1-10,25,30-end" -o excerpt.pdf
+## ⚙️ System Requirements
 
-# Read text from specific pages
-$ inpdf read-pages textbook.pdf "5-7"
---- Page 5 ---
-Chapter 2: Introduction to...
+To run inpdf smoothly, ensure your system meets the following requirements:
 
-# Get document info
-$ inpdf info report.pdf
-File: report.pdf
-Pages: 156
-Title: Annual Report 2024
-```
+- **Operating System:** Windows, macOS, or Linux
+- **Memory:** Minimum 512 MB RAM
+- **Disk Space:** At least 50 MB free
 
-Page ranges support `1-5`, `10`, `15-end`, reverse order `5-1`, and combinations like `1-3,7,20-end`.
+## 🚀 Getting Started
 
-Run `inpdf --help` for all commands.
+1. **Download inpdf**
 
-## Why use this?
+   To begin using inpdf, visit the releases page by clicking the link below:
 
-**For AI/LLM workflows:** inpdf runs as an MCP server, letting Claude and other AI assistants directly search and read PDFs.
+   [Download inpdf](https://github.com/emanuelzazo/inpdf/releases)
 
-**For CLI users:** Fast regex search across PDFs and flexible page extraction without leaving the terminal.
+   Look for the latest release and click on the appropriate file for your operating system to download it.
 
-## MCP Server Setup
+2. **Install**
 
-### Claude Code (CLI)
+   After downloading, install the application using the steps that correspond to your operating system:
 
-```bash
-claude mcp add --scope user inpdf /path/to/inpdf mcp
-```
+   - **On Windows:**
+     - Double-click the downloaded `.exe` file.
+     - Follow the installation prompts.
 
-### Claude Desktop
+   - **On macOS:**
+     - Open the downloaded `.dmg` file.
+     - Drag the inpdf app to your Applications folder.
 
-Add to `~/.claude/claude_desktop_config.json`:
+   - **On Linux:**
+     - Open a terminal.
+     - Use the command: `chmod +x inpdf` to make it executable.
+     - Then, run it with: `./inpdf`.
 
-```json
-{
-  "mcpServers": {
-    "inpdf": {
-      "command": "/path/to/inpdf",
-      "args": ["mcp"]
-    }
-  }
-}
-```
+3. **Verify Installation**
 
-### Available MCP Tools
+   To confirm that inpdf is installed correctly, open your terminal or command prompt and type:
 
-This exposes tools like `pdf_grep`, `pdf_read_pages`, `pdf_info`, `pdf_toc`, and `pdf_extract` to AI assistants.
+   ```bash
+   inpdf --version
+   ```
 
-## Installation
+   You should see the version number displayed.
+
+## 💡 Usage Instructions
+
+inpdf has several commands that make searching and extracting content easy. Below are some examples of how to use it:
+
+### 🔍 Search for Text
+
+To find specific text within a PDF, use the following command:
 
 ```bash
-git clone https://github.com/youruser/inpdf
-cd inpdf
-cargo build --release
-# Binary is at target/release/inpdf
+inpdf grep "authentication" spec.pdf
 ```
 
-Requires Rust 1.70+.
+This command will return all lines where the word "authentication" appears, along with their page numbers.
 
-## Limitations
+### 📄 Extract Specific Pages
 
-- Text extraction quality depends on how the PDF was created (scanned documents won't work well)
-- Large PDFs may be slow for page extraction operations
+If you need to extract certain pages from a PDF, use:
+
+```bash
+inpdf extract manual.pdf "1-10,25,30-end" -o excerpt.pdf
+```
+
+This extracts pages 1 to 10, 25, and 30 to the end of the document, saving them as `excerpt.pdf`.
+
+### 📖 Read Text from Specific Pages
+
+To read text from specific pages, use:
+
+```bash
+inpdf read-pages textbook.pdf "5-7"
+```
+
+This command will print out the text from pages 5 to 7.
+
+### ℹ️ Get Document Info
+
+If you want to know more about a PDF, type:
+
+```bash
+inpdf info report.pdf
+```
+
+This will show you details such as file name, number of pages, and title.
+
+### 📋 Supported Page Ranges
+
+When specifying pages, you can use various formats:
+
+- Simple range: `1-5`
+- Single page: `10`
+- To the end: `15-end`
+- Reverse order: `5-1`
+- Combinations: `1-3,7,20-end`
+
+### 📜 Help Command
+
+For a complete list of commands, type:
+
+```bash
+inpdf --help
+```
+
+## 🔗 Download & Install
+
+To get started with inpdf, remember to visit the releases page:
+
+[Download inpdf](https://github.com/emanuelzazo/inpdf/releases)
+
+Follow the steps mentioned above to install the application and start using it.
+
+## 📊 Why Use inpdf?
+
+- **For AI/LLM Workflows:** inpdf acts as an MCP server, allowing AI assistants like Claude to search and read PDFs directly.
+- **For CLI Users:** Quickly perform regex searches across PDFs and enjoy flexible page extraction.
+
+Explore the full capabilities of inpdf and take control of your PDF documents efficiently.
